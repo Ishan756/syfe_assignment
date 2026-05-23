@@ -47,8 +47,8 @@ public class CategoryService {
         category.setCustom(true);
         category.setUser(user);
 
-        categoryRepository.save(category);
-        return new CategoryResponse(category.getId(), category.getName(), category.getType(), category.isCustom());
+        Category saved = categoryRepository.save(category);
+        return new CategoryResponse(saved.getId(), saved.getName(), saved.getType(), saved.isCustom());
     }
 
     public void deleteCategory(String name, User user) {
