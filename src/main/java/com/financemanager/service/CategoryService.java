@@ -52,7 +52,6 @@ public class CategoryService {
     }
 
     public void deleteCategory(String name, User user) {
-        // Check if it's a default category
         if (categoryRepository.existsByNameAndUserIsNull(name)) {
             throw new ForbiddenException("Default categories cannot be deleted");
         }
@@ -68,7 +67,6 @@ public class CategoryService {
     }
 
     public Category findCategoryByNameForUser(String name, User user) {
-        // Check default categories first
         Category defaultCategory = categoryRepository.findByNameAndUserIsNull(name).orElse(null);
         if (defaultCategory != null) {
             return defaultCategory;

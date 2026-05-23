@@ -198,6 +198,37 @@ The backend reads these environment variables when running in Docker:
 - `SPRING_DATASOURCE_PASSWORD`
 - `SERVER_PORT`
 
+### How Docker Works Here
+
+This setup uses **two containers** and **two images**:
+
+- The `db` service uses the ready-made `postgres:16-alpine` image.
+- The `backend` service builds a custom image from the project [Dockerfile](Dockerfile).
+
+They run on the same Docker Compose network, so the backend reaches Postgres using the service name `db` instead of `localhost`.
+
+```mermaid
+flowchart LR
+  P[Your browser / Postman] --> B[Backend container]
+  B -->|jdbc:postgresql://db:5432/finance_manager| D[Postgres container]
+```
+
+#### In simple words
+
+- The **image** is the blueprint.
+- The **container** is the running instance of that blueprint.
+- Compose starts the DB container first, then the backend container.
+- The backend container waits until Postgres is healthy before starting.
+- Data is stored in a Docker volume, so the database does not reset every time you restart containers.
+
+#### Not the same container
+
+The backend and database are **not** in the same container. They are separate containers because:
+
+- one container should do one job well
+- the database needs persistent storage and its own process
+- the backend can be rebuilt and restarted independently
+
 ---
 
 ## PostgreSQL Setup
