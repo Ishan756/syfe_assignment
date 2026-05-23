@@ -158,7 +158,8 @@ No screenshots are committed yet. Add app images here after taking them from the
 
 Deployment is not published yet. Add the live link here after deployment, for example:
 
-`https://your-app.example.com`
+- Frontend (Vercel): [https://syfe-assignment-sand.vercel.app/](https://syfe-assignment-sand.vercel.app/)
+- Backend (Render): [https://syfe-assignment-1.onrender.com/](https://syfe-assignment-1.onrender.com/)
 
 ## Deploying on Render
 
