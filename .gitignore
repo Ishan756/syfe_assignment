@@ -1,0 +1,41 @@
+# Java / Maven / Spring Boot
+# Ignore build output
+target/
+build/
+
+# Compiled class files
+*.class
+
+# Packages
+*.jar
+*.war
+*.ear
+*.zip
+
+# IDEs and editors
+.idea/
+*.iml
+.vscode/
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Logs and databases
+logs/
+*.log
+*.db
+*.sql
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+bin/
+temp/
