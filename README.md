@@ -160,6 +160,53 @@ Deployment is not published yet. Add the live link here after deployment, for ex
 
 `https://your-app.example.com`
 
+## Deploying on Render
+
+Render is a good fit for this project if you deploy the backend and database as separate services.
+
+### What to create
+
+1. A **Web Service** for the Spring Boot backend.
+2. A **PostgreSQL** database from Render's managed database option.
+
+### Backend setup
+
+1. Push this repository to GitHub.
+2. In Render, create a new **Web Service** and connect the repo.
+3. Choose **Docker** as the environment.
+4. Render will use the root-level [Dockerfile](Dockerfile) to build the backend image.
+5. Set the service to listen on the platform port. The app already supports Render's `PORT` variable through `application.properties`.
+
+### Database setup
+
+1. Create a new **PostgreSQL** instance on Render.
+2. Copy the database connection details from Render.
+3. In the backend web service, set these environment variables:
+  - `SPRING_DATASOURCE_URL`
+  - `SPRING_DATASOURCE_USERNAME`
+  - `SPRING_DATASOURCE_PASSWORD`
+
+### Suggested values
+
+Use the Render PostgreSQL connection info for the datasource variables. The final URL usually looks like:
+
+```text
+jdbc:postgresql://<host>:5432/<database>
+```
+
+### Build and start
+
+If you use the Dockerfile, Render handles the build automatically. If you prefer a non-Docker web service, use:
+
+- Build command: `mvn clean package -DskipTests`
+- Start command: `java -jar target/finance-manager-0.0.1-SNAPSHOT.jar`
+
+### After deployment
+
+1. Open the Render backend URL and confirm it responds.
+2. Update the frontend API base URL to the Render backend URL.
+3. Add your frontend domain to CORS in [SecurityConfig.java](src/main/java/com/financemanager/config/SecurityConfig.java) if needed.
+
 ---
 
 ## Tech Stack
