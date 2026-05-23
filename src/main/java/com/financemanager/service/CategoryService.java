@@ -29,7 +29,7 @@ public class CategoryService {
     public List<CategoryResponse> getAllCategories(User user) {
         return categoryRepository.findByUserIsNullOrUser(user)
                 .stream()
-                .map(c -> new CategoryResponse(c.getName(), c.getType(), c.isCustom()))
+                .map(c -> new CategoryResponse(c.getId(), c.getName(), c.getType(), c.isCustom()))
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +48,7 @@ public class CategoryService {
         category.setUser(user);
 
         categoryRepository.save(category);
-        return new CategoryResponse(category.getName(), category.getType(), category.isCustom());
+        return new CategoryResponse(category.getId(), category.getName(), category.getType(), category.isCustom());
     }
 
     public void deleteCategory(String name, User user) {

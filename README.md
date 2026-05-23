@@ -59,6 +59,36 @@ Default categories (Salary, Food, Rent, etc.) are auto-seeded on first startup.
 
 ---
 
+## Frontend
+
+A simple React + Tailwind frontend lives in `frontend/`.
+
+### Frontend Prerequisites
+
+- Node.js 18+
+- npm 9+
+
+### Run the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The dev server runs on `http://localhost:5173` and proxies `/api` requests to the Spring Boot backend on `http://localhost:8080`.
+
+### Optional Production Build
+
+```bash
+cd frontend
+npm run build
+```
+
+The build output is written to `frontend/dist`.
+
+---
+
 ## Running Tests
 
 ```bash
