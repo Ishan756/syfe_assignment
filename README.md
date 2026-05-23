@@ -2,6 +2,164 @@
 
 A Spring Boot REST API for managing personal finances — track income, expenses, savings goals, and generate reports.
 
+[![CI](https://github.com/Ishan756/syfe_assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/Ishan756/syfe_assignment/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-82%25-brightgreen)](target/site/jacoco/index.html)
+
+---
+
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+  UI[React + Tailwind Frontend] -->|/api requests| API[Spring Boot REST API]
+  API --> AUTH[AuthController + Session Security]
+  API --> CAT[CategoryController / Service]
+  API --> TX[TransactionController / Service]
+  API --> GOAL[SavingsGoalController / Service]
+  API --> REP[ReportController / Service]
+  AUTH --> DB[(PostgreSQL)]
+  CAT --> DB
+  TX --> DB
+  GOAL --> DB
+  REP --> DB
+```
+
+## ER Diagram
+
+```mermaid
+erDiagram
+  USER ||--o{ TRANSACTION : owns
+  USER ||--o{ CATEGORY : defines
+  USER ||--o{ SAVINGS_GOAL : tracks
+  CATEGORY ||--o{ TRANSACTION : groups
+
+  USER {
+    bigint id
+    string username
+    string password
+    string fullName
+    string phoneNumber
+  }
+
+  CATEGORY {
+    bigint id
+    string name
+    string type
+    boolean isCustom
+    bigint user_id
+  }
+
+  TRANSACTION {
+    bigint id
+    decimal amount
+    date date
+    string description
+    bigint category_id
+    bigint user_id
+  }
+
+  SAVINGS_GOAL {
+    bigint id
+    string goalName
+    decimal targetAmount
+    date targetDate
+    date startDate
+    bigint user_id
+  }
+```
+
+## API Examples
+
+### Register
+```json
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "Password123"
+}
+```
+
+### Login
+```json
+{
+  "email": "test@example.com",
+  "password": "Password123"
+}
+```
+
+### Create Goal
+```json
+{
+  "goalName": "Emergency Fund",
+  "targetAmount": 5000.0,
+  "targetDate": "2026-12-01",
+  "startDate": "2025-01-01"
+}
+```
+
+### Create Transaction
+```json
+{
+  "amount": 100.0,
+  "date": "2026-06-01",
+  "category": "Salary",
+  "description": "Monthly salary"
+}
+```
+
+### Sample Success Response
+```json
+{
+  "id": 1,
+  "goalName": "Emergency Fund",
+  "targetAmount": 5000.0,
+  "targetDate": "2026-12-01",
+  "startDate": "2025-01-01"
+}
+```
+
+---
+
+## Tradeoffs
+
+- Session-based auth is simpler for the assignment and works well with a browser frontend, but it is less stateless than JWT.
+- Categories are deleted by `name` instead of `id` to match the existing API and frontend flow, which is easy to use but slightly less flexible.
+- The frontend is intentionally lightweight and focused on assignment coverage rather than a full production UX.
+- Docker runs the backend and database together, but the frontend is still kept as a separate dev/build app.
+
+## Assumptions
+
+- Each user only sees and manages their own transactions, categories, and savings goals.
+- Category names are unique per user.
+- Dates are submitted in `YYYY-MM-DD` format.
+- The database is PostgreSQL in normal runs and H2 during tests.
+- The deployed frontend, if added later, will call the backend through `/api` or an equivalent configured base URL.
+
+## Future Improvements
+
+- Add delete-by-id for categories to match the other resources.
+- Serve the built frontend from Spring Boot for a single deployable artifact.
+- Add end-to-end tests for the main user flows.
+- Add export/import for transactions and reports.
+- Add pagination and sorting for transaction and goal listing.
+- Add actual cloud deployment and wire the live URL here.
+
+## Screenshots
+
+No screenshots are committed yet. Add app images here after taking them from the running frontend:
+
+- Login / Register screen
+- Dashboard screen
+- Transaction list and filters
+- Savings goals screen
+- Monthly and yearly reports
+
+## Deployment Link
+
+Deployment is not published yet. Add the live link here after deployment, for example:
+
+`https://your-app.example.com`
+
 ---
 
 ## Tech Stack
@@ -22,9 +180,29 @@ A Spring Boot REST API for managing personal finances — track income, expenses
 - Maven 3.8+
 - PostgreSQL 14+
 
+## Docker Setup
+
+The backend and database can also run in Docker with the included `Dockerfile` and `docker-compose.yml`.
+
+```bash
+docker compose up --build
+```
+
+This starts:
+- PostgreSQL on `localhost:5432`
+- Spring Boot on `localhost:8080`
+
+The backend reads these environment variables when running in Docker:
+- `SPRING_DATASOURCE_URL`
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+- `SERVER_PORT`
+
 ---
 
 ## PostgreSQL Setup
+
+If you want to run the backend directly on your machine without Docker, create the database manually:
 
 ```sql
 CREATE DATABASE finance_manager;
