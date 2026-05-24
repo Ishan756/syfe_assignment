@@ -5,6 +5,11 @@ A Spring Boot REST API for managing personal finances — track income, expenses
 [![CI](https://github.com/Ishan756/syfe_assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/Ishan756/syfe_assignment/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-82%25-brightgreen)](target/site/jacoco/index.html)
 
+<!-- Demo video -->
+## Demo Video
+
+[Watch the demo video (Google Drive)](https://drive.google.com/file/d/114XqTD8SkB5xzTqnGgTTlvDrdc6mFrEL/view?usp=sharing)
+
 ---
 
 ## Architecture Diagram
@@ -146,13 +151,15 @@ erDiagram
 
 ## Screenshots
 
-No screenshots are committed yet. Add app images here after taking them from the running frontend:
+The repository includes demo screenshots showing the main flows (login, dashboard, transactions, and goals). Images are referenced from the `screenshots/` folder:
 
-- Login / Register screen
-- Dashboard screen
-- Transaction list and filters
-- Savings goals screen
-- Monthly and yearly reports
+- ![Login / Register screen](screenshots/login-register.png)
+- ![Dashboard screen](screenshots/dashboard.png)
+- ![Transaction list and filters](screenshots/transactions.png)
+- ![Savings goals screen](screenshots/goals.png)
+- ![Monthly and yearly reports](screenshots/reports.png)
+
+If the images are not present locally, add the PNG files to `screenshots/` with the filenames above so they render on GitHub.
 
 ## Deployment Link
 
